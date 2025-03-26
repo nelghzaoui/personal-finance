@@ -1,8 +1,6 @@
 @font-face {
   font-family: 'Public Sans';
-  font-style: normal;
-  font-weight: 500;
-  src: url('/assets/fonts/PublicSans-Regular.ttf') format('truetype');
+  src: url('/assets/fonts/PublicSans-VariableFont_wght.ttf') format('truetype');
 }
 
 @theme inline {
