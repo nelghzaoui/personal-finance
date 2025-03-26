@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CardSectionComponent } from './components/card-link.component';
+import { DonutComponent } from '../../shared/components/donut.component';
 
 @Component({
-  imports: [CardSectionComponent],
+  imports: [CardSectionComponent, DonutComponent],
   template: `
     <section aria-labelledby="overview-title" class="flex flex-col gap-8">
       <h1 id="overview-title" class="text-preset-1">Overview</h1>
@@ -180,6 +181,16 @@ import { CardSectionComponent } from './components/card-link.component';
               link: { label: 'See Details', url: '/budget' }
             }"
           >
+            <tx-donut
+              [values]="[
+                { label: 'Entertainment', value: 50, color: '#387d7a' },
+                { label: 'Bills', value: 750, color: '#8bd2e4' },
+                { label: 'Dining Out', value: 133, color: '#f4d4a5' },
+                { label: 'Personal Care', value: 100, color: '#696868' }
+              ]"
+              [used]="338"
+              [total]="975"
+            />
           </tx-card-section>
         </section>
 
@@ -191,6 +202,44 @@ import { CardSectionComponent } from './components/card-link.component';
               link: { label: 'See Details', url: '/bill' }
             }"
           >
+            <ul class="flex flex-col gap-2">
+              <li class="relative bg-beige-100 rounded-r-2xl px-4 py-6">
+                <span
+                  class="absolute top-0 left-0 h-full w-[6px] bg-green-500 rounded-l-2xl z-10"
+                ></span>
+                <span
+                  class="absolute top-0 left-[4px] h-full w-[10px] bg-beige-100 rounded z-20"
+                ></span>
+                <div class="flex justify-between">
+                  <span class="text-preset-4 text-grey-500">Paid Bills</span>
+                  <span class="text-preset-4 font-bold">$190.00</span>
+                </div>
+              </li>
+              <li class="relative bg-beige-100 rounded-r-2xl px-4 py-6">
+                <span
+                  class="absolute top-0 left-0 h-full w-[6px] bg-yellow rounded-l-2xl z-10"
+                ></span>
+                <span
+                  class="absolute top-0 left-[4px] h-full w-[10px] bg-beige-100 rounded z-20"
+                ></span>
+                <div class="flex justify-between">
+                  <span class="text-preset-4 text-grey-500">Paid Bills</span>
+                  <span class="text-preset-4 font-bold">$190.00</span>
+                </div>
+              </li>
+              <li class="relative bg-beige-100 rounded-r-2xl px-4 py-6">
+                <span
+                  class="absolute top-0 left-0 h-full w-[6px] bg-cyan rounded-l-2xl z-10"
+                ></span>
+                <span
+                  class="absolute top-0 left-[4px] h-full w-[10px] bg-beige-100 rounded z-20"
+                ></span>
+                <div class="flex justify-between">
+                  <span class="text-preset-4 text-grey-500">Paid Bills</span>
+                  <span class="text-preset-4 font-bold">$190.00</span>
+                </div>
+              </li>
+            </ul>
           </tx-card-section>
         </section>
       </div>
