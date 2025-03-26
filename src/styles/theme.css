@@ -49,18 +49,8 @@
     @apply text-[14px] leading-[150%] font-normal font-public;
   }
 
-  /* Text Preset 4 Bold – 14px / 150% / Bold */
-  .text-preset-4-bold {
-    @apply text-[14px] leading-[150%] font-bold font-public;
-  }
-
   /* Text Preset 5 – 12px / 150% / Regular */
   .text-preset-5 {
     @apply text-[12px] leading-[150%] font-normal font-public;
-  }
-
-  /* Text Preset 5 Bold – 12px / 150% / Bold */
-  .text-preset-5-bold {
-    @apply text-[12px] leading-[150%] font-bold font-public;
   }
 }

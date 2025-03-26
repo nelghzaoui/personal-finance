@@ -7,7 +7,7 @@ import { Component, input } from '@angular/core';
   template: `
     <button
       type="button"
-      class="text-preset-4-bold rounded-lg cursor-pointer text-white p-4 transition-colors duration-200"
+      class="text-preset-4 font-bold rounded-lg cursor-pointer text-white p-4 transition-colors duration-200"
       [ngClass]="{
         'bg-grey-900 hover:bg-grey-500': style() === 'primary',
         'bg-grey-100 text-grey-900 hover:bg-white hover:border hover:border-grey-500':

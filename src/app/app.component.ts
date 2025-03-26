@@ -10,8 +10,8 @@ import { RouterOutlet } from '@angular/router';
       <aside class="w-[250px] bg-[#1e1e1e] text-white hidden lg:block"></aside>
 
       <!-- Main content -->
-      <div class="flex-1 flex flex-col overflow-hidden bg-white">
-        <main class="flex-1 overflow-y-auto p-6">
+      <div class="flex-1 flex flex-col overflow-hidden bg-beige-100">
+        <main class="flex-1 overflow-y-auto p-4 text-grey-900">
           <router-outlet />
         </main>
 
