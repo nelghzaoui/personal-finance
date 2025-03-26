@@ -10,8 +10,8 @@ import { Component, computed, input } from '@angular/core';
       <div
         class="absolute inset-4 bg-white rounded-full flex flex-col items-center justify-center"
       >
-        <p class="text-lg font-bold">$ {{ used() }}</p>
-        <p class="text-sm text-grey-500">of $ {{ total() }} limit</p>
+        <p class="text-preset-1">$ {{ used() }}</p>
+        <p class="text-preset-5 text-grey-500">of $ {{ total() }} limit</p>
       </div>
     </div>
   `

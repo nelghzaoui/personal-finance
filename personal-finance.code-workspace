@@ -58,6 +58,7 @@
       "commandCenter.border": "#e7e7e799"
     },
     "peacock.color": "#dd0531",
-    "emmet.includeLanguages": { "javascript": "html" }
+    "emmet.includeLanguages": { "javascript": "html" },
+    "explorer.compactFolders": false
   }
 }

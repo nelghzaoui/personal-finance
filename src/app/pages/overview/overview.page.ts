@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CardSectionComponent } from './components/card-link.component';
 import { DonutComponent } from '../../shared/components/donut.component';
+import {
+  ColoredItem,
+  ColoredItemComponent
+} from '../../shared/components/colored-item.component';
 
 @Component({
-  imports: [CardSectionComponent, DonutComponent],
+  imports: [CardSectionComponent, ColoredItemComponent, DonutComponent],
   template: `
     <section aria-labelledby="overview-title" class="flex flex-col gap-8">
       <h1 id="overview-title" class="text-preset-1">Overview</h1>
@@ -54,34 +58,9 @@ import { DonutComponent } from '../../shared/components/donut.component';
 
             <!-- Pots breakdown -->
             <ul class="grid grid-cols-2 gap-4 text-preset-5">
-              <li class="flex items-start gap-2">
-                <span class="w-1 h-full  bg-turquoise rounded"></span>
-                <div class="flex flex-col gap-2">
-                  <p class="text-grey-500 font-light">Savings</p>
-                  <p class="text-preset-4 font-bold">$159</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1 h-full bg-cyan rounded"></span>
-                <div class="flex flex-col gap-2">
-                  <p class="text-grey-500">Gift</p>
-                  <p class="text-preset-4 font-bold">$40</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1 h-full bg-grey-500 rounded"></span>
-                <div class="flex flex-col gap-2">
-                  <p class="text-grey-500">Concert Ticket</p>
-                  <p class="text-preset-4 font-bold">$110</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1 h-full bg-yellow rounded"></span>
-                <div class="flex flex-col gap-2">
-                  <p class="text-grey-500">New Laptop</p>
-                  <p class="text-preset-4 font-bold">$10</p>
-                </div>
-              </li>
+              @for(item of potItems; track item) {
+              <tx-colored-item [item]="item" />
+              }
             </ul>
           </tx-card-section>
         </section>
@@ -181,16 +160,13 @@ import { DonutComponent } from '../../shared/components/donut.component';
               link: { label: 'See Details', url: '/budget' }
             }"
           >
-            <tx-donut
-              [values]="[
-                { label: 'Entertainment', value: 50, color: '#387d7a' },
-                { label: 'Bills', value: 750, color: '#8bd2e4' },
-                { label: 'Dining Out', value: 133, color: '#f4d4a5' },
-                { label: 'Personal Care', value: 100, color: '#696868' }
-              ]"
-              [used]="338"
-              [total]="975"
-            />
+            <tx-donut [values]="budgetItems" [used]="338" [total]="975" />
+
+            <ul class="grid grid-cols-2 gap-4 text-preset-5 pt-2">
+              @for(item of budgetItems; track item) {
+              <tx-colored-item [item]="item" />
+              }
+            </ul>
           </tx-card-section>
         </section>
 
@@ -247,5 +223,19 @@ import { DonutComponent } from '../../shared/components/donut.component';
   `
 })
 export class OverviewPage implements OnInit {
-  ngOnInit() {}
+  readonly potItems: ColoredItem[] = [
+    { label: 'Savings', value: 159, color: 'green' },
+    { label: 'Gift', value: 40, color: '#82c9d7' },
+    { label: 'Concert Ticket', value: 110, color: '#696868' },
+    { label: 'New Laptop', value: 10, color: '#f2cdac' }
+  ];
+
+  readonly budgetItems: ColoredItem[] = [
+    { label: 'Entertainment', value: 50, color: '#387d7a' },
+    { label: 'Bills', value: 750, color: '#8bd2e4' },
+    { label: 'Dining Out', value: 75, color: '#f4d4a5' },
+    { label: 'Personal Care', value: 100, color: '#696868' }
+  ];
+
+  ngOnInit(): void {}
 }
