@@ -1,0 +1,32 @@
+import { NgClass } from '@angular/common';
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'tx-button',
+  imports: [NgClass],
+  template: `
+    <button
+      type="button"
+      class="text-preset-4-bold rounded-lg cursor-pointer p-4"
+      [ngClass]="{
+        'bg-grey-900 text-white hover:bg-grey-500': style() === 'primary',
+        'bg-grey-100 text-grey-900 hover:bg-white hover:border hover:border-grey-500':
+          style() === 'secondary',
+        'flex justify-between p-0 gap-4 text-grey-500 font-normal hover:text-grey-900':
+          style() === 'tertiary'
+      }"
+    >
+      {{ label() }}
+
+      @if(style() === 'tertiary') {
+      <img src="/assets/images/icon-caret-right.svg" alt="" />
+      }
+    </button>
+  `
+})
+export class ButtonComponent {
+  label = input<string>();
+  style = input<Style>();
+}
+
+type Style = 'primary' | 'secondary' | 'tertiary';
