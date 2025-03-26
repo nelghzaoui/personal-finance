@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     @if(section(); as section) {
-    <div class="bg-white rounded-2xl p-4">
+    <div class="bg-white rounded-2xl p-5 py-6 flex flex-col gap-2">
       <div class="flex items-center justify-between mb-4">
         <h2 id="{{ sectionId() }}-title" class="text-preset-2">
           {{ section.title }}
