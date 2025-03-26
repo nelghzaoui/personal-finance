@@ -19,6 +19,23 @@
     "material-icon-theme.activeIconPack": "angular_ngrx",
     "material-icon-theme.folders.color": "#ff7043",
     "material-icon-theme.folders.theme": "specific",
+    "material-icon-theme.folders.associations": {
+      "features": "flow",
+      "controllers": "guard",
+      "store": "redux-actions",
+      "directives": "delta"
+    },
+    "material-icon-theme.files.associations": {
+      "*.controller.ts": "nest-controller",
+      "*.middleware.ts": "nest-middleware",
+      "*.gateway.ts": "nest-gateway",
+      "*.schema.ts": "nest",
+      "*.filter.ts": "nest-filter",
+      "*.decorator.ts": "nest-decorator",
+      "*.repository.ts": "redux-action",
+      "*.page.ts": "angular-component",
+      "*.modal.ts": "angular-component"
+    },
     "vsicons.presets.angular": true,
     "workbench.colorCustomizations": {
       "activityBar.background": "#fa1b49",
@@ -40,10 +57,6 @@
       "statusBarItem.remoteForeground": "#e7e7e7",
       "commandCenter.border": "#e7e7e799"
     },
-    "peacock.color": "#dd0531",
-    "material-icon-theme.folders.associations": {
-      "features": "flow",
-      "notification": "event"
-    }
+    "peacock.color": "#dd0531"
   }
 }
