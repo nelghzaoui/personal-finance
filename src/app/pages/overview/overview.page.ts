@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardSectionComponent } from './components/card-link.component';
-import { DonutComponent } from '../../shared/components/donut.component';
-import {
-  ColoredItem,
-  ColoredItemComponent
-} from '../../shared/components/colored-item.component';
+import { DonutComponent, ColoredItem, ColoredItemComponent } from '@shared';
+import { TransactionListComponent } from '../transaction/components/list.component';
+import { TransactionService } from '../../services/transaction.service';
+import { TransactionItem } from '../../models/transaction.type';
 
 @Component({
-  imports: [CardSectionComponent, ColoredItemComponent, DonutComponent],
+  imports: [
+    CardSectionComponent,
+    ColoredItemComponent,
+    DonutComponent,
+    TransactionListComponent
+  ],
   template: `
-    <section aria-labelledby="overview-title" class="flex flex-col gap-8">
+    <section aria-labelledby="overview-title" class="flex flex-col gap-8 pt-4">
       <h1 id="overview-title" class="text-preset-1">Overview</h1>
 
       <section aria-labelledby="summary-title">
@@ -73,82 +77,7 @@ import {
               link: { label: 'View All', url: '/transaction' }
             }"
           >
-            <ul class="flex flex-col gap-4 pt-4">
-              <li class="flex justify-between items-center">
-                <img
-                  src="/assets/images/avatars/emma-richardson.jpg"
-                  alt=""
-                  class="w-[32px] rounded-full"
-                />
-                <span class="text-preset-4 font-bold">Emma Richardson</span>
-                <div class="flex flex-col gap-2 items-end">
-                  <span class="text-preset-4 font-bold text-green-500">
-                    +$75.50
-                  </span>
-                  <span class="text-preset-5 text-grey-500">19 Aug 2024</span>
-                </div>
-              </li>
-              <div class="border border-grey-100"></div>
-              <li class="flex justify-between items-center">
-                <img
-                  src="/assets/images/avatars/emma-richardson.jpg"
-                  alt=""
-                  class="w-[32px] rounded-full"
-                />
-                <span class="text-preset-4 font-bold">Emma Richardson</span>
-                <div class="flex flex-col gap-2 items-end">
-                  <span class="text-preset-4 font-bold text-green-500">
-                    +$75.50
-                  </span>
-                  <span class="text-preset-5 text-grey-500">19 Aug 2024</span>
-                </div>
-              </li>
-              <div class="border border-grey-100"></div>
-              <li class="flex justify-between items-center">
-                <img
-                  src="/assets/images/avatars/emma-richardson.jpg"
-                  alt=""
-                  class="w-[32px] rounded-full"
-                />
-                <span class="text-preset-4 font-bold">Emma Richardson</span>
-                <div class="flex flex-col gap-2 items-end">
-                  <span class="text-preset-4 font-bold text-green-500">
-                    +$75.50
-                  </span>
-                  <span class="text-preset-5 text-grey-500">19 Aug 2024</span>
-                </div>
-              </li>
-              <div class="border border-grey-100"></div>
-              <li class="flex justify-between items-center">
-                <img
-                  src="/assets/images/avatars/emma-richardson.jpg"
-                  alt=""
-                  class="w-[32px] rounded-full"
-                />
-                <span class="text-preset-4 font-bold">Emma Richardson</span>
-                <div class="flex flex-col gap-2 items-end">
-                  <span class="text-preset-4 font-bold text-green-500">
-                    +$75.50
-                  </span>
-                  <span class="text-preset-5 text-grey-500">19 Aug 2024</span>
-                </div>
-              </li>
-              <div class="border border-grey-100"></div>
-              <li class="flex justify-between items-center">
-                <img
-                  src="/assets/images/avatars/emma-richardson.jpg"
-                  alt=""
-                  class="w-[32px] rounded-full"
-                />
-                <span class="text-preset-4 font-bold">Emma Richardson</span>
-                <div class="flex flex-col gap-2 items-end">
-                  <span class="text-preset-4 font-bold text-green-500">
-                    +$75.50
-                  </span>
-                  <span class="text-preset-5 text-grey-500">19 Aug 2024</span>
-                </div>
-              </li>
-            </ul>
+            <tx-transaction-list [items]="transactions" />
           </tx-card-section>
         </section>
 
@@ -236,6 +165,9 @@ export class OverviewPage implements OnInit {
     { label: 'Dining Out', value: 75, color: '#f4d4a5' },
     { label: 'Personal Care', value: 100, color: '#696868' }
   ];
+
+  private readonly transactionService = inject(TransactionService);
+  transactions: TransactionItem[] = this.transactionService.transactions;
 
   ngOnInit(): void {}
 }
