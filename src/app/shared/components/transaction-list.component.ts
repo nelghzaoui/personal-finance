@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { TransactionItem } from '../../../models/transaction.type';
+import { TransactionItem } from '../../models/transaction.type';
 
 @Component({
   selector: 'tx-transaction-list',
