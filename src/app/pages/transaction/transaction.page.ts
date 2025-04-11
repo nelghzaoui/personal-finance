@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TransactionListComponent } from '../../shared/components/transaction-list.component';
 import { TransactionItem } from '../../models/transaction.type';
 import { TransactionService } from '../../services/transaction.service';
@@ -39,7 +39,6 @@ import { PaginationComponent } from '../../shared/components/pagination.componen
             </div>
           </label>
 
-          <!-- Sort -->
           <button type="button" aria-label="Sort" class="rounded-full">
             <img
               src="/assets/images/icon-sort-mobile.svg"
@@ -48,7 +47,6 @@ import { PaginationComponent } from '../../shared/components/pagination.componen
             />
           </button>
 
-          <!-- Filter -->
           <button type="button" aria-label="Filter" class="rounded-full ">
             <img
               src="/assets/images/icon-filter-mobile.svg"
@@ -57,15 +55,52 @@ import { PaginationComponent } from '../../shared/components/pagination.componen
             />
           </button>
         </div>
-        <tx-transaction-list [items]="transactions" />
+        <tx-transaction-list [items]="paginatedItems()" />
         <!-- Pagination  -->
-        <tx-pagination />
+        @if (transactions.length > 10) {
+          <tx-pagination
+            [currentPage]="currentPage()"
+            [totalPages]="totalPages()"
+            (previous)="onPrevious()"
+            (goTo)="onGoTo($event)"
+            (next)="onNext()"
+          />
+        }
       </div>
     </section>
   `
 })
-export class TransactionPage implements OnInit {
+export class TransactionPage {
   private readonly transactionService = inject(TransactionService);
-  transactions: TransactionItem[] = this.transactionService.transactions;
-  ngOnInit() {}
+  readonly transactions: TransactionItem[] =
+    this.transactionService.transactions;
+
+  filteredTransactions = signal(this.transactions);
+  currentPage = signal<number>(1);
+  readonly paginatedItems = computed(() => {
+    const start = (this.currentPage() - 1) * 10;
+    const end = this.currentPage() * 10;
+    return this.filteredTransactions().slice(start, end);
+  });
+  readonly totalPages = computed(() =>
+    Math.ceil(this.filteredTransactions().length / 10)
+  );
+
+  onPrevious() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+    }
+  }
+
+  onGoTo(pageNumber: number) {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages()) {
+      this.currentPage.set(pageNumber);
+    }
+  }
+
+  onNext() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+    }
+  }
 }

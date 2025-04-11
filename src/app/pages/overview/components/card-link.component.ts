@@ -5,27 +5,27 @@ import { RouterLink } from '@angular/router';
   selector: 'tx-card-section',
   imports: [RouterLink],
   template: `
-    @if(section(); as section) {
-    <div class="bg-white rounded-2xl p-5 py-6 flex flex-col gap-2">
-      <div class="flex items-center justify-between mb-4">
-        <h2 id="{{ sectionId() }}-title" class="text-preset-2">
-          {{ section.title }}
-        </h2>
+    @if (section(); as section) {
+      <div class="bg-white rounded-2xl p-5 py-6 flex flex-col gap-2">
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="{{ sectionId() }}-title" class="text-preset-2">
+            {{ section.title }}
+          </h2>
 
-        @if(section.link) {
-        <a
-          [routerLink]="section.link.url"
-          class="text-preset-4 text-grey-500 cursor-pointer justify-between flex items-center gap-4 hover:text-grey-900"
-        >
-          {{ section.link.label }}
-          <img src="/assets/images/icon-caret-right.svg" alt="" />
-        </a>
-        }
+          @if (section.link) {
+            <a
+              [routerLink]="section.link.url"
+              class="text-preset-4 text-grey-500 cursor-pointer justify-between flex items-center gap-4 hover:text-grey-900"
+            >
+              {{ section.link.label }}
+              <img src="/assets/images/icon-caret-right.svg" alt="" />
+            </a>
+          }
+        </div>
+
+        <!-- Main content of the card -->
+        <ng-content />
       </div>
-
-      <!-- Main content of the card -->
-      <ng-content />
-    </div>
     }
   `
 })

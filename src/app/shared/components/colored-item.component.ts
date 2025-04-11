@@ -5,19 +5,19 @@ import { Component, input } from '@angular/core';
   selector: 'tx-colored-item',
   imports: [CurrencyPipe],
   template: `
-    @if(item(); as item) {
-    <li class="flex items-start h-full gap-2">
-      <span
-        [style.backgroundColor]="item.color"
-        class="w-1 h-full rounded"
-      ></span>
-      <div class="flex flex-col gap-2">
-        <p class="text-grey-500 font-light">{{ item.label }}</p>
-        <p class="text-preset-4 font-bold">
-          {{ item.value | currency : 'USD' : 'symbol' : '1.0-0' }}
-        </p>
-      </div>
-    </li>
+    @if (item(); as item) {
+      <li class="flex items-start h-full gap-2">
+        <span
+          [style.backgroundColor]="item.color"
+          class="w-1 h-full rounded"
+        ></span>
+        <div class="flex flex-col gap-2">
+          <p class="text-grey-500 font-light">{{ item.label }}</p>
+          <p class="text-preset-4 font-bold">
+            {{ item.value | currency: 'USD' : 'symbol' : '1.0-0' }}
+          </p>
+        </div>
+      </li>
     }
   `
 })

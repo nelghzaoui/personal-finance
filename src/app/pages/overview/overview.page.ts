@@ -62,8 +62,8 @@ import { TransactionItem } from '../../models/transaction.type';
 
             <!-- Pots breakdown -->
             <ul class="grid grid-cols-2 gap-4 text-preset-5">
-              @for(item of potItems; track item) {
-              <tx-colored-item [item]="item" />
+              @for (item of potItems; track item) {
+                <tx-colored-item [item]="item" />
               }
             </ul>
           </tx-card-section>
@@ -92,8 +92,8 @@ import { TransactionItem } from '../../models/transaction.type';
             <tx-donut [values]="budgetItems" [used]="338" [total]="975" />
 
             <ul class="grid grid-cols-2 gap-4 text-preset-5 pt-2">
-              @for(item of budgetItems; track item) {
-              <tx-colored-item [item]="item" />
+              @for (item of budgetItems; track item) {
+                <tx-colored-item [item]="item" />
               }
             </ul>
           </tx-card-section>

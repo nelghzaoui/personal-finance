@@ -1,61 +1,64 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 @Component({
   selector: 'tx-pagination',
   imports: [NgClass],
   template: `
     <ul class="flex justify-center gap-2">
-      <li>
-        <button
-          class="w-12 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
-          aria-label="Previous page"
-        >
-          <img src="/assets/images/icon-caret-left.svg" alt="" />
-        </button>
-      </li>
+      @if (currentPage() !== 1) {
+        <li>
+          <button
+            class="w-12 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
+            aria-label="Previous page"
+            (click)="previous.emit()"
+          >
+            <img src="/assets/images/icon-caret-left.svg" alt="" />
+          </button>
+        </li>
+      }
 
-      <li>
-        <button
-          [ngClass]="{ 'bg-grey-900 text-white border-grey-900': true }"
-          class="w-11 h-10 border rounded-lg flex items-center justify-center text-preset-"
-          aria-label="Previous page"
-        >
-          1
-        </button>
-      </li>
+      @if (totalPages(); as totalPages) {
+        @for (page of pageRange(); track page; let i = $index) {
+          <li>
+            <button
+              [ngClass]="{
+                'bg-grey-900 text-white border-grey-900': i + 1 == currentPage()
+              }"
+              class="w-11 h-10 border rounded-lg flex items-center justify-center text-preset-"
+              [attr.aria-label]="'Current page ' + currentPage()"
+              (click)="goTo.emit(i + 1)"
+            >
+              {{ i + 1 }}
+            </button>
+          </li>
+        }
 
-      <li>
-        <button
-          class="w-11 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
-          aria-label="Previous page"
-        >
-          2
-        </button>
-      </li>
-
-      <li>
-        <button
-          class="w-11 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
-          aria-label="Previous page"
-        >
-          3
-        </button>
-      </li>
-
-      <li>
-        <button
-          class="w-12 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
-          aria-label="Previous page"
-        >
-          <img src="/assets/images/icon-caret-right.svg" alt="" />
-        </button>
-      </li>
+        @if (currentPage() < totalPages) {
+          <li>
+            <button
+              class="w-12 h-10 border border-grey-300 rounded-lg flex items-center justify-center text-preset-"
+              aria-label="Previous page"
+              (click)="next.emit()"
+            >
+              <img src="/assets/images/icon-caret-right.svg" alt="" />
+            </button>
+          </li>
+        }
+      }
     </ul>
   `
 })
-export class PaginationComponent implements OnInit {
-  constructor() {}
+export class PaginationComponent {
+  /* Inputs */
+  currentPage = input<number>(1);
+  totalPages = input<number>();
+  readonly pageRange = computed(() =>
+    Array.from({ length: this.totalPages()! }, (_, i) => i + 1)
+  );
 
-  ngOnInit() {}
+  /* Outputs*/
+  previous = output();
+  goTo = output<number>();
+  next = output();
 }

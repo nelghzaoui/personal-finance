@@ -19,8 +19,8 @@ import { Component, input } from '@angular/core';
     >
       {{ label() }}
 
-      @if(style() === 'tertiary') {
-      <img src="/assets/images/icon-caret-right.svg" alt="" />
+      @if (style() === 'tertiary') {
+        <img src="/assets/images/icon-caret-right.svg" alt="" />
       }
     </button>
   `
