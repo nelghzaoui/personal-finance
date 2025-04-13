@@ -3,24 +3,27 @@ import {
   Component,
   computed,
   inject,
-  OnInit,
   signal
 } from '@angular/core';
-import { TransactionListComponent } from '../../shared/components/transaction-list.component';
+import { MatMenuModule } from '@angular/material/menu';
+
+import {
+  DropdownComponent,
+  PaginationComponent,
+  TransactionListComponent
+} from '@shared';
+import { SearchComponent } from './components/search.component';
 import { TransactionItem } from '../../models/transaction.type';
 import { TransactionService } from '../../services/transaction.service';
-import { PaginationComponent } from '../../shared/components/pagination.component';
-import { SearchComponent } from './components/search.component';
-import { SearchPipe } from '../../shared/pipes/search.pipe';
 
 @Component({
-  selector: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatMenuModule,
     PaginationComponent,
     TransactionListComponent,
     SearchComponent,
-    SearchPipe
+    DropdownComponent
   ],
   template: `
     <section
@@ -36,30 +39,28 @@ import { SearchPipe } from '../../shared/pipes/search.pipe';
             (searched)="search.set($event)"
           />
 
-          <button type="button" aria-label="Sort" class="rounded-full">
-            <img
-              src="/assets/images/icon-sort-mobile.svg"
-              alt=""
-              class="w-5 h-5"
-            />
-          </button>
+          <tx-dropdown
+            class="self-end"
+            dropdownId="sort"
+            [items]="sorts"
+            [selectedItem]="sort()"
+            imagePath="/assets/images/icon-sort-mobile.svg"
+            (select)="onSort($event)"
+          />
 
-          <button type="button" aria-label="Filter" class="rounded-full ">
-            <img
-              src="/assets/images/icon-filter-mobile.svg"
-              alt=""
-              class="w-5 h-5"
-            />
-          </button>
+          <tx-dropdown
+            class="self-end"
+            dropdownId="filter"
+            [items]="filters"
+            [selectedItem]="filter()"
+            imagePath="/assets/images/icon-filter-mobile.svg"
+            (select)="onFilter($event)"
+          />
         </div>
         <!-- List Items -->
-        <tx-transaction-list
-          [items]="
-            paginatedItems() | search: search() : 'label' : 'description'
-          "
-        />
+        <tx-transaction-list [items]="paginatedItems()" />
         <!-- Pagination  -->
-        @if (transactions.length > 10) {
+        @if (activeTransactions().length > 10) {
           <tx-pagination
             [currentPage]="currentPage()"
             [totalPages]="totalPages()"
@@ -74,20 +75,69 @@ import { SearchPipe } from '../../shared/pipes/search.pipe';
 })
 export class TransactionPage {
   private readonly transactionService = inject(TransactionService);
-  readonly transactions: TransactionItem[] =
+  private readonly transactions: TransactionItem[] =
     this.transactionService.transactions;
 
-  filteredTransactions = signal(this.transactions);
+  readonly sorts = availableSorts;
+  readonly filters = availableFilters;
+  readonly activeTransactions = computed(() => {
+    const query = this.search().toLowerCase();
+    const activeFilter = this.filter();
+    const activeSort = this.sort();
+
+    return this.transactions
+      .filter((tx) => {
+        const matchSearch =
+          tx.label.toLowerCase().includes(query) ||
+          tx.description.toLowerCase().includes(query);
+
+        const matchFilter =
+          activeFilter === 'All Transactions' ||
+          tx.description === activeFilter;
+
+        return matchSearch && matchFilter;
+      })
+      .sort((a, b) => {
+        switch (activeSort) {
+          case 'Latest':
+            return b.date.getTime() - a.date.getTime();
+          case 'Oldest':
+            return a.date.getTime() - b.date.getTime();
+          case 'A to Z':
+            return a.label.localeCompare(b.label);
+          case 'Z to A':
+            return b.label.localeCompare(a.label);
+          case 'Highest':
+            return b.price - a.price;
+          case 'Lowest':
+            return a.price - b.price;
+          default:
+            return 0;
+        }
+      });
+  });
   currentPage = signal<number>(1);
   readonly paginatedItems = computed(() => {
     const start = (this.currentPage() - 1) * 10;
     const end = this.currentPage() * 10;
-    return this.filteredTransactions().slice(start, end);
+    return this.activeTransactions().slice(start, end);
   });
   readonly totalPages = computed(() =>
-    Math.ceil(this.filteredTransactions().length / 10)
+    Math.ceil(this.activeTransactions().length / 10)
   );
   search = signal('');
+  sort = signal<string>('Latest');
+  filter = signal<string>('All Transactions');
+
+  onSort(value: string) {
+    this.sort.set(value);
+    this.currentPage.set(1);
+  }
+
+  onFilter(value: string) {
+    this.filter.set(value);
+    this.currentPage.set(1);
+  }
 
   onPrevious() {
     if (this.currentPage() > 1) {
@@ -107,3 +157,22 @@ export class TransactionPage {
     }
   }
 }
+
+export const availableSorts = [
+  'Latest',
+  'Oldest',
+  'A to Z',
+  'Z to A',
+  'Highest',
+  'Lowest'
+];
+
+export const availableFilters = [
+  'All Transactions',
+  'Entertainment',
+  'Bills',
+  'Groceries',
+  'Dinning Out',
+  'Transporation',
+  'Personal Care'
+];
