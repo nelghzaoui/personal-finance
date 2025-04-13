@@ -1,12 +1,27 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 import { TransactionListComponent } from '../../shared/components/transaction-list.component';
 import { TransactionItem } from '../../models/transaction.type';
 import { TransactionService } from '../../services/transaction.service';
 import { PaginationComponent } from '../../shared/components/pagination.component';
+import { SearchComponent } from './components/search.component';
+import { SearchPipe } from '../../shared/pipes/search.pipe';
 
 @Component({
   selector: '',
-  imports: [TransactionListComponent, PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PaginationComponent,
+    TransactionListComponent,
+    SearchComponent,
+    SearchPipe
+  ],
   template: `
     <section
       aria-labelledby="transaction-title"
@@ -16,28 +31,10 @@ import { PaginationComponent } from '../../shared/components/pagination.componen
 
       <div class="bg-white rounded-2xl p-5 py-6 flex flex-col gap-2">
         <div class="flex justify-between">
-          <label for="Search">
-            <div class="relative">
-              <input
-                type="text"
-                id="Search"
-                placeholder="Search transaction"
-                class="mt-0.5 w-full rounded-lg border border-grey-300 py-2 ps-5 text-preset-4"
-              />
-
-              <span
-                class="absolute inset-y-0 right-2 grid w-8 place-content-center"
-              >
-                <button
-                  type="button"
-                  aria-label="Submit"
-                  class="rounded-full p-1.5 transition-color"
-                >
-                  <img src="/assets/images/icon-search.svg" alt="search" />
-                </button>
-              </span>
-            </div>
-          </label>
+          <tx-search
+            label="Search transaction"
+            (searched)="search.set($event)"
+          />
 
           <button type="button" aria-label="Sort" class="rounded-full">
             <img
@@ -55,7 +52,12 @@ import { PaginationComponent } from '../../shared/components/pagination.componen
             />
           </button>
         </div>
-        <tx-transaction-list [items]="paginatedItems()" />
+        <!-- List Items -->
+        <tx-transaction-list
+          [items]="
+            paginatedItems() | search: search() : 'label' : 'description'
+          "
+        />
         <!-- Pagination  -->
         @if (transactions.length > 10) {
           <tx-pagination
@@ -85,6 +87,7 @@ export class TransactionPage {
   readonly totalPages = computed(() =>
     Math.ceil(this.filteredTransactions().length / 10)
   );
+  search = signal('');
 
   onPrevious() {
     if (this.currentPage() > 1) {

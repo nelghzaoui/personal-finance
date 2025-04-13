@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { CardSectionComponent } from './components/card-link.component';
 import { DonutComponent, ColoredItem, ColoredItemComponent } from '@shared';
 import { TransactionListComponent } from '../../shared/components/transaction-list.component';
@@ -6,6 +11,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { TransactionItem } from '../../models/transaction.type';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CardSectionComponent,
     ColoredItemComponent,

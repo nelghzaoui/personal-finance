@@ -1,8 +1,9 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'tx-colored-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CurrencyPipe],
   template: `
     @if (item(); as item) {

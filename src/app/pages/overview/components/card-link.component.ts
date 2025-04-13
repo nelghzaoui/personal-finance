@@ -1,8 +1,14 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tx-card-section',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   template: `
     @if (section(); as section) {

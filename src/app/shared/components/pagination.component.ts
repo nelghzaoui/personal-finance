@@ -1,8 +1,15 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output
+} from '@angular/core';
 
 @Component({
   selector: 'tx-pagination',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass],
   template: `
     <ul class="flex justify-center gap-2">

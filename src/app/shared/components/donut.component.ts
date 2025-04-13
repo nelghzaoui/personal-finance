@@ -1,7 +1,13 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input
+} from '@angular/core';
 
 @Component({
   selector: 'tx-donut',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       class="relative w-50 h-50 rounded-full mx-auto"
