@@ -28,8 +28,8 @@ export class DonutComponent {
     let current = 0;
     const segments = this.values().map((e) => {
       const start = (current / this.total()) * 100;
-      const end = ((current + e.value) / this.total()) * 100;
-      current += e.value;
+      const end = ((current + e.total) / this.total()) * 100;
+      current += e.total;
       return `${e.color} ${start}% ${end}%`;
     });
     return `conic-gradient(${segments.join(',')})`;
@@ -41,5 +41,6 @@ export class DonutComponent {
 export type Segment = {
   label: string;
   value: number;
+  total: number;
   color: string;
 };

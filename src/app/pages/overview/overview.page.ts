@@ -9,6 +9,8 @@ import { DonutComponent, ColoredItem, ColoredItemComponent } from '@shared';
 import { TransactionListComponent } from '../../shared/components/transaction-list.component';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionItem } from '../../models/transaction.type';
+import { BudgetService } from '../../services/budget.service';
+import { BudgetCategory } from '../../models/budget.type';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -95,10 +97,10 @@ import { TransactionItem } from '../../models/transaction.type';
               link: { label: 'See Details', url: '/budget' }
             }"
           >
-            <tx-donut [values]="budgetItems" [used]="338" [total]="975" />
+            <tx-donut [values]="budgets" [used]="338" [total]="975" />
 
             <ul class="grid grid-cols-2 gap-4 text-preset-5 pt-2">
-              @for (item of budgetItems; track item) {
+              @for (item of budgets; track item) {
                 <tx-colored-item [item]="item" />
               }
             </ul>
@@ -165,15 +167,10 @@ export class OverviewPage implements OnInit {
     { label: 'New Laptop', value: 10, color: '#f2cdac' }
   ];
 
-  readonly budgetItems: ColoredItem[] = [
-    { label: 'Entertainment', value: 50, color: '#387d7a' },
-    { label: 'Bills', value: 750, color: '#8bd2e4' },
-    { label: 'Dining Out', value: 75, color: '#f4d4a5' },
-    { label: 'Personal Care', value: 100, color: '#696868' }
-  ];
-
   private readonly transactionService = inject(TransactionService);
+  private readonly budgetService = inject(BudgetService);
   transactions: TransactionItem[] = this.transactionService.transactions;
+  budgets: BudgetCategory[] = this.budgetService.summary.categories;
 
   ngOnInit(): void {}
 }

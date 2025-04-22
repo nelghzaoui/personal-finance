@@ -1,4 +1,4 @@
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
@@ -13,10 +13,16 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
           class="w-1 h-full rounded"
         ></span>
         <div class="flex flex-col gap-2">
-          <p class="text-grey-500 font-light">{{ item.label }}</p>
-          <p class="text-preset-4 font-bold">
-            {{ item.value | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </p>
+          <span class="text-grey-500">{{ item.label }}</span>
+          <div>
+            <span class="text-preset-3 font-bold">
+              {{ item.value | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </span>
+            <span class="text-grey-500">
+              of
+              {{ item.total | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </span>
+          </div>
         </div>
       </li>
     }
@@ -30,4 +36,5 @@ export type ColoredItem = {
   label: string;
   value: number;
   color: string;
+  total?: number;
 };
